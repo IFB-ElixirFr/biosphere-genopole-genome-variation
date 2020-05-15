@@ -11,18 +11,19 @@ source /etc/profile
 
 # Install deps
 apt-get update
-apt-get install sysstat gnuplot eog  gthumb  imagemagick openjdk-8-jdk emacs gedit  gedit-plugins   gedit-developer-plugins ruby tree ncdu lzop lbzip2 pigz unzip libboost-dev cmake
+apt-get install -y sysstat gnuplot eog  gthumb  imagemagick openjdk-8-jdk emacs gedit  gedit-plugins   gedit-developer-plugins ruby tree ncdu lzop lbzip2 pigz unzip libboost-dev cmake
 
 # Install IRSOM and deps
-git clone https://forge.ibisc.univ-evry.fr/lplaton/IRSOM.git ${IRSOM_DIR}
+GIT_SSL_NO_VERIFY=true git clone https://forge.ibisc.univ-evry.fr/lplaton/IRSOM.git ${IRSOM_DIR}
 chown -R  ${LOCUSER} ${IRSOM_DIR}
 python3 -m pip install -r ${IRSOM_DIR}/pip_package.txt
 
 # Install Tools (w/ conda)
-conda install bcftools bedtools bwa fastqc gatk4 igv lumpy-sv manta picard samtools snpeff snpsift tabix
+conda install -y bcftools bedtools bwa fastqc gatk4 igv picard samtools snpeff snpsift tabix
+# conflicting packages: lumpy-sv manta
 
 # Install Canvas (Require .Net)
-curl -O https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+curl -LJO https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 
